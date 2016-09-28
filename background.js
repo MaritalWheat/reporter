@@ -37,7 +37,8 @@ chrome.runtime.onMessage.addListener(function(message){
         //alert(xhr.responseText);
         var link = JSON.parse(xhr.responseText).data.link;
         //alert(link);
-        chrome.tabs.create({"url": link});
+        //chrome.tabs.create({"url": link});
+        alert("Captured, motherfucker.")
     };
     /*xhr.onload = function() {
     // Big win!
@@ -54,6 +55,6 @@ chrome.runtime.onMessage.addListener(function(message){
     xhr.setRequestHeader('Authorization', 'Client-ID f6f5270227cc86d');
     /* And now, we send the formdata */
     //xhr.send(fd);
-    xhr.send(JSON.stringify({ image : allImages[0] }));
+    xhr.send(JSON.stringify({ image : allImages[0], album : 'gNDGj4I2rDwy5BZ'}));
   }
 });
