@@ -39,22 +39,49 @@ chrome.runtime.onMessage.addListener(function(message){
         //alert(link);
         //chrome.tabs.create({"url": link});
         alert("Captured, motherfucker.")
-    };
-    /*xhr.onload = function() {
-    // Big win!
+      };
+      /*xhr.onload = function() {
+      // Big win!
+          var link = JSON.parse(xhr.responseText).data.link;
+          document.querySelector("#link").href = link;
+          document.querySelector("#link").innerHTML = link;
+
+
+
+          document.body.className = "uploaded";
+          alert(link);
+      }*/
+      // Ok, I don't handle the errors. An exercice for the reader.
+      xhr.setRequestHeader('Authorization', 'Client-ID f6f5270227cc86d');
+      /* And now, we send the formdata */
+      //xhr.send(fd);
+      xhr.send(JSON.stringify({ image : allImages[0], album : 'gNDGj4I2rDwy5BZ'}));
+    }
+});
+
+chrome.contextMenus.create({
+  "title": "Report It!",
+  "contexts": ["image"], "onclick": function (info, tab) {
+
+    //send to imgur API
+    var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
+    xhr.open("POST", "https://api.imgur.com/3/image"); // Boooom!
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
         var link = JSON.parse(xhr.responseText).data.link;
-        document.querySelector("#link").href = link;
-        document.querySelector("#link").innerHTML = link;
+        //alert("Captured, motherfucker.")
+    };
 
-
-
-        document.body.className = "uploaded";
-        alert(link);
-    }*/
-    // Ok, I don't handle the errors. An exercice for the reader.
     xhr.setRequestHeader('Authorization', 'Client-ID f6f5270227cc86d');
-    /* And now, we send the formdata */
-    //xhr.send(fd);
-    xhr.send(JSON.stringify({ image : allImages[0], album : 'gNDGj4I2rDwy5BZ'}));
+    xhr.send(JSON.stringify({ image : info.srcUrl, album : 'gNDGj4I2rDwy5BZ'}));
+
+
+    /*console.log(info);
+    console.log(tab);
+    var pinUrl = "http://pinterest.com/pin/create/bookmarklet/";
+    pinUrl += "?media=" + escape(info.srcUrl) + "&url=" + escape(tab.url) + "&alt=alt&title=foo"; //+ escape(tab.title);
+    pinUrl += "&is_video=false&";
+    window.open(pinUrl,"pin"+(new Date).getTime(),"status=no,resizable=no,scrollbars=yes,personalbar=no,directories=no,location=no,toolbar=no,menubar=no,width=635,height=290,left=0,top=0");
+    */
   }
 });

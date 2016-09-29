@@ -2,10 +2,9 @@
   "manifest_version": 2,
   "name": "My Cool Extension",
   "permissions": [
-    "http://*/"
+    "http://*/", "contextMenus"
   ],
   "version": "0.1",
-
   "content_scripts": [
     {
       "matches": [
