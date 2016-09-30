@@ -23,3 +23,61 @@ chrome.runtime.onMessage.addListener
     }
   }
 );
+
+chrome.runtime.onMessage.addListener
+    (function(request, sender, sendResponse) {
+      if( request.message === "sent_upload_request" ) {
+        var iframe = document.createElement("iframe");
+        iframe.setAttribute("src", "https://www.voki.com/images/ajax-loader.gif");
+        iframe.setAttribute("style", "border:none; width:400px; height:400px; position:fixed; top: 50%; left: 50%; margin-top: -200px; margin-left:-200px;");
+        iframe.setAttribute("scrolling", "no");
+        iframe.setAttribute("frameborder", "0");
+        document.body.appendChild(iframe);
+        fadeIn(iframe, 300);
+    }
+  }
+);
+
+chrome.runtime.onMessage.addListener
+    (function(request, sender, sendResponse) {
+      if( request.message === "upload_complete" ) {
+        var iframes = document.querySelectorAll('iframe');
+        for (var i = 0; i < iframes.length; i++) {
+            iframes[i].parentNode.removeChild(iframes[i]);
+        }
+
+        var iframe = document.createElement("iframe");
+        iframe.setAttribute("src", "https://summericeworld.files.wordpress.com/2015/06/smiley-face-clip-art-thumbs-up-clipart-two-thumbs-up-happy-smiley-emoticon-512x512-eec6.png?w=593&h=159");
+        iframe.setAttribute("style", "border:none; width:600px; height:500px; position:fixed; top: 50%; left: 50%; margin-top: -250px; margin-left:-300px;");
+        iframe.setAttribute("scrolling", "no");
+        iframe.setAttribute("frameborder", "0");
+        document.body.appendChild(iframe);
+        fadeIn(iframe, 300);
+
+        setTimeout(function() {
+            iframes = document.querySelectorAll('iframe');
+            for (var i = 0; i < iframes.length; i++) {
+                iframes[i].parentNode.removeChild(iframes[i]);
+            }
+          }, 2000
+        );
+    }
+  }
+);
+
+function fadeIn(el, duration) {
+
+    /*
+     * @param el - The element to be faded out.
+     * @param duration - Animation duration in milliseconds.
+     */
+
+    var step = 10 / duration,
+        opacity = 0;
+    function next() {
+        if (opacity >= 1) { return; }
+        el.style.opacity = ( opacity += step );
+        setTimeout(next, 10);
+    }
+    next();
+}

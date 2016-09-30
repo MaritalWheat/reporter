@@ -69,11 +69,13 @@ chrome.contextMenus.create({
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         var link = JSON.parse(xhr.responseText).data.link;
+        chrome.tabs.sendMessage(tab.id, {"message": "upload_complete"});
         //alert("Captured, motherfucker.")
     };
 
     xhr.setRequestHeader('Authorization', 'Client-ID f6f5270227cc86d');
     xhr.send(JSON.stringify({ image : info.srcUrl, album : 'gNDGj4I2rDwy5BZ'}));
+    chrome.tabs.sendMessage(tab.id, {"message": "sent_upload_request"});
 
 
     /*console.log(info);
