@@ -86,7 +86,11 @@ chrome.contextMenus.create({
         //alert("Captured, motherfucker.")
     };
 
-    xhr.send(JSON.stringify({ image : info.srcUrl, name : 'random'}));
+    var srcUrl = info.srcUrl;
+    var filename = srcUrl.substring(srcUrl.lastIndexOf('/')+1);
+    console.log(filename);
+
+    xhr.send(JSON.stringify({ image : info.srcUrl, name : filename}));
     chrome.tabs.sendMessage(tab.id, {"message": "sent_upload_request"});
 
 
