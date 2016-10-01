@@ -64,7 +64,7 @@ chrome.contextMenus.create({
   "contexts": ["image"], "onclick": function (info, tab) {
 
     //send to imgur API
-    var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
+    /*var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
     xhr.open("POST", "https://api.imgur.com/3/image"); // Boooom!
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
@@ -75,6 +75,18 @@ chrome.contextMenus.create({
 
     xhr.setRequestHeader('Authorization', 'Client-ID f6f5270227cc86d');
     xhr.send(JSON.stringify({ image : info.srcUrl, album : 'gNDGj4I2rDwy5BZ'}));
+    chrome.tabs.sendMessage(tab.id, {"message": "sent_upload_request"});*/
+
+    var xhr = new XMLHttpRequest(); // Create the XHR (Cross-Domain XHR FTW!!!) Thank you sooooo much imgur.com
+    xhr.open("POST", "https://serene-atoll-19293.herokuapp.com/api/submit-azure-photo"); // Boooom!
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        //var link = JSON.parse(xhr.responseText).data.link;
+        chrome.tabs.sendMessage(tab.id, {"message": "upload_complete"});
+        //alert("Captured, motherfucker.")
+    };
+
+    xhr.send(JSON.stringify({ image : info.srcUrl, name : 'random'}));
     chrome.tabs.sendMessage(tab.id, {"message": "sent_upload_request"});
 
 
